@@ -1,0 +1,9 @@
+@import "~bootstrap/scss/functions";
+@import "./helpers/variables";
+@import "~bootstrap/scss/mixins";
+
+
+@import "~bootstrap/scss/bootstrap";
+
+//在 all.scss 之中，mixins 必須要最後再載入，避免前面有些變數還未載入卻有使用的狀況，這樣就會導致錯誤
+//所以不能只載入其中一個
