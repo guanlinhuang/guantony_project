@@ -27,8 +27,8 @@
       <tr v-for="item in products" :key="item.id">
         <td>{{ item.category }}</td>
         <td>{{ item.title }}</td>
-        <td class="text-right">{{ item.origin_price }}</td>
-        <td class="text-right">{{ item.price }}</td>
+        <td class="text-right">{{ $filters.currency(item.origin_price) }}</td>
+        <td class="text-right">{{ $filters.currency(item.price) }}</td>
         <td>
           <span class="text-success" v-if="item.is_enabled">啟用</span>
           <span class="text-muted" v-else>未啟用</span>
@@ -44,6 +44,8 @@
     </tbody>
   </table>
   <!-- 前內後外 -->
+  <Pagination :pages="pagination"
+    @emit-pages="getProducts"></Pagination>
   <ProductModal ref="productModal" :product="tempProduct"
   @update-product="updateProduct"></ProductModal>
   <DelModal :item="tempProduct" ref="delModal" @del-item="delProduct"/>
@@ -52,6 +54,7 @@
 <script>
 import ProductModal from '../components/ProductModal.vue' // 將ProductModal元件載進來，才能使用該元件的方法呼叫
 import DelModal from '@/components/DelModal.vue' // 將DelModal元件載進來，才能使用該元件的方法呼叫
+import Pagination from '@/components/Pagination.vue'
 
 // 為什麼不在ProductModal.vue建空白的tempProduct？
 // 因為除了新增用，還有編輯也會用到，所以在Products.vue建立空白的tempProduct
@@ -67,12 +70,13 @@ export default {
   },
   components: {
     ProductModal, // 區域註冊
-    DelModal
+    DelModal,
+    Pagination
   },
-  inject: ['emitter'],
+  inject: ['emitter'], // 內層使用inject // 可使用外層的功能
   methods: {
-    getProducts () { // 從遠端資料庫撈資料
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products` // 透過這個api取得遠端資料
+    getProducts (page = 1) { // 從遠端資料庫撈資料 // 加入參數預設值page = 1，若沒有加入，也會直接載入第一頁
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products/?page=${page}` // 透過這個api取得遠端資料
       this.isLoading = true // 取得遠端資料時，進入讀取狀態
       this.$http.get(api) // 因為改成get，即只取得資料，所以後面不需加入任何this.user
         .then((res) => {
@@ -125,17 +129,18 @@ export default {
           productComponent.hideModal()
           // 4.要重新取得列表資料，所以要觸發getProducts來重新渲染畫面
           // this.getProducts()
+          // 更新產品時，會判斷是成功還是失敗
           if (response.data.success) {
             this.getProducts()
-            this.emitter.emit('push-message', {
+            this.emitter.emit('push-message', { // 成功時，觸發emitter
               style: 'success',
               title: '更新成功'
             })
           } else {
-            this.emitter.emit('push-message', {
+            this.emitter.emit('push-message', { // 失敗時，觸發emitter
               style: 'danger',
               title: '更新失敗',
-              content: response.data.message.join('、')
+              content: response.data.message.join('、') // 訊息內容是從後端傳進來，使用join方式把陣列一一取出來，中間以頓號區隔，並傳到content
             })
           }
         })

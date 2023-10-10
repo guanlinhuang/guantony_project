@@ -18,7 +18,7 @@ export default {
     Navbar,
     ToastMessages
   },
-  provide () {
+  provide () { // 外層加入provide // 可讓內層元件可以使用外層的功能
     return {
       emitter
     }
