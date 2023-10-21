@@ -38,7 +38,7 @@ export default {
       modal: ''
     }
   },
-  mixins: [modalMixin] // 新增屬性
+  mixins: [modalMixin] // 使用 mixin 整合相同程式碼
 }
 </script>
 

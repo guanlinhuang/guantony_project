@@ -91,9 +91,9 @@ export default {
     // (1)加入openModal(套用在”增加產品“按鈕上)
     openModal (isNew, item) {
       // console.log(isNew, item)
-      if (isNew) {
+      if (isNew) { // 新增按鈕會用到
         this.tempProduct = {}
-      } else { // 如果參數傳入false，則執行else // ... 用來展開形式把資料給取出來
+      } else { // 編輯按鈕會用到 // 如果參數傳入false，則執行else // ... 用來展開形式把資料給取出來
         this.tempProduct = { ...item }
       }
       this.isNew = isNew // this.isNew = 傳入的參數
@@ -120,8 +120,8 @@ export default {
       // 之所以「!this.isNew」為true時，條件成立，進入執行區塊，
       // 是因為這個「true」就是if判斷條件成立不成立的依據，跟新增編輯狀態沒什麼關係
       const productComponent = this.$refs.productModal
-      // 2.將儲存起來的資料發送到遠端
-      // 中括號[]可載入方法post或put // 原this.$http[httpMethod] 改為 this.$http[httpMethod]
+      // 2.將儲存起來的資料(this.tempProduct)發送到遠端
+      // 中括號[]可載入方法post或put // 原this.$http.post/put 改為this.$http[httpMethod]
       this.$http[httpMethod](api, { data: this.tempProduct })
         .then((response) => {
           console.log(response)
