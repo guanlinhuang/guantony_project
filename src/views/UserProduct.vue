@@ -37,7 +37,7 @@ export default {
     }
   },
   methods: {
-    getProduct () {
+    getProduct () { // 取得商品id資訊
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${this.id}`
       this.isLoading = true
       this.$http.get(api).then((response) => {
@@ -63,7 +63,7 @@ export default {
     }
   },
   created () {
-    this.id = this.$route.params.productId
+    this.id = this.$route.params.productId // -Ne8gzmrkTBOmbLnw1PT
     this.getProduct()
   }
 }

@@ -16,7 +16,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '/login',
+    path: '/login', // 登入頁面
     component: () => import('../views/Login.vue')
   },
   {
@@ -24,15 +24,15 @@ const routes = [
     component: () => import('../views/Dashboard.vue'),
     children: [
       {
-        path: 'products',
+        path: 'products', // 產品頁面
         component: () => import('../views/Products.vue')
       },
       {
-        path: 'orders',
+        path: 'orders', // 訂單頁面
         component: () => import('../views/Orders.vue')
       },
       {
-        path: 'coupons',
+        path: 'coupons', // 優惠券頁面
         component: () => import('../views/Coupons.vue')
       }
     ]
@@ -42,11 +42,11 @@ const routes = [
     component: () => import('../views/Userboard.vue'),
     children: [
       {
-        path: 'cart',
+        path: 'cart', // 購物車頁面
         component: () => import('../views/UserCart.vue')
       },
       {
-        path: 'product/:productId',
+        path: 'product/:productId', // 某一產品頁面
         component: () => import('../views/UserProduct.vue')
       }
     ]

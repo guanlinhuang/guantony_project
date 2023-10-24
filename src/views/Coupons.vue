@@ -94,7 +94,7 @@ export default {
       this.$http.get(url, this.tempProduct).then((response) => { // *****
         this.coupons = response.data.coupons
         this.isLoading = false // 遠端資料已取得完畢，關閉讀取效果
-        console.log(response)
+        console.log('getCoupons', response)
       })
     },
     // 編輯(新增)優惠券 // 儲存優惠券到遠端資料庫 // 方法:post/put
